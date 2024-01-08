@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/v1/g")
+@RequestMapping("/v1/schedule")
 public interface ToDoListAPI {
     @PostMapping
     ResponseEntity<ToDoListResponse> create(@RequestBody ToDoListRequest toDoListRequest);
