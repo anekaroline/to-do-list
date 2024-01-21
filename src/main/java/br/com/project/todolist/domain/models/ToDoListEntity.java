@@ -16,7 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "toDo-list")
+@Table(name = "schedule")
 public class ToDoListEntity {
 
     @Id
@@ -26,6 +26,7 @@ public class ToDoListEntity {
     private String description;
     private LocalDate startDate;
     private LocalDate endDate;
+    @Enumerated(EnumType.STRING)
     private ToDoStatus status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

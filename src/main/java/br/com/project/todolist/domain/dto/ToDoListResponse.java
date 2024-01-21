@@ -5,9 +5,11 @@ import br.com.project.todolist.domain.models.ToDoListEntity;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public record ToDoListResponse(
+        UUID uuid,
         String title,
         String description,
         LocalDate startDate,
@@ -17,6 +19,7 @@ public record ToDoListResponse(
 
     public static ToDoListResponse from(ToDoListEntity toDoList){
         return new ToDoListResponse(
+                toDoList.getId(),
                 toDoList.getTitle(),
                 toDoList.getDescription(),
                 toDoList.getStartDate(),

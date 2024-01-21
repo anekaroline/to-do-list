@@ -1,13 +1,15 @@
 package br.com.project.todolist.service;
 
 import br.com.project.todolist.domain.models.ToDoListEntity;
+import br.com.project.todolist.exceptionhandler.exceptions.EndDateBeforeStartDateException;
 import br.com.project.todolist.repository.ToDoListRepository;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.UUID;
+import java.beans.PropertyDescriptor;
+import java.util.*;
 
 @Service
 public class ToDoListService {
@@ -23,17 +25,19 @@ public class ToDoListService {
     }
 
     public ToDoListEntity findById(String uuid) {
-       return toDoListRepository.findById(UUID.fromString(uuid)).orElseThrow(NoSuchElementException::new);
+       return toDoListRepository.findById(UUID.fromString(uuid)).orElseThrow(() -> new NoSuchElementException(uuid));
     }
 
 
     public ToDoListEntity save(ToDoListEntity toDoListEntity) {
+        isValidDate(toDoListEntity);
         return toDoListRepository.save(toDoListEntity);
     }
 
     public ToDoListEntity update(String uuid, ToDoListEntity toDoListEntity) {
         ToDoListEntity toDoListExisting = findById(uuid);
-        BeanUtils.copyProperties(toDoListExisting, toDoListEntity, "uuid");
+        isValidDate(toDoListEntity);
+        BeanUtils.copyProperties(toDoListEntity,toDoListExisting, getNullPropertyNames(toDoListEntity));
         return toDoListRepository.save(toDoListExisting);
     }
 
@@ -42,5 +46,31 @@ public class ToDoListService {
         findById(uuid);
         toDoListRepository.deleteById(UUID.fromString(uuid));
     }
+
+    public void isValidDate(ToDoListEntity toDoListEntity) {
+        if(Objects.nonNull(toDoListEntity.getStartDate()) && Objects.nonNull(toDoListEntity.getEndDate())){
+            boolean isAfter = !toDoListEntity.getStartDate().isAfter(toDoListEntity.getEndDate());
+            if(!isAfter){
+                throw new EndDateBeforeStartDateException();
+            }
+        }
+
+    }
+
+    private String[] getNullPropertyNames(Object source) {
+        final BeanWrapper src = new BeanWrapperImpl(source);
+        java.beans.PropertyDescriptor[] pds = src.getPropertyDescriptors();
+
+        Set<String> emptyNames = new HashSet<>();
+        for (PropertyDescriptor pd : pds) {
+            Object srcValue = src.getPropertyValue(pd.getName());
+            if (srcValue == null) emptyNames.add(pd.getName());
+        }
+
+        String[] result = new String[emptyNames.size()];
+        return emptyNames.toArray(result);
+    }
+
+
 
 }
