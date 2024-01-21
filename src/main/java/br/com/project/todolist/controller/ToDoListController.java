@@ -4,12 +4,13 @@ import br.com.project.todolist.controller.api.ToDoListAPI;
 import br.com.project.todolist.domain.dto.ToDoListRequest;
 import br.com.project.todolist.domain.dto.ToDoListResponse;
 import br.com.project.todolist.service.ToDoListService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
+@Tag(name = "Schedule", description = "API agenda or To-Do List")
 @RestController
 public class ToDoListController implements ToDoListAPI {
 

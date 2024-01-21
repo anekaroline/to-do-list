@@ -2,6 +2,11 @@ package br.com.project.todolist.controller.api;
 
 import br.com.project.todolist.domain.dto.ToDoListRequest;
 import br.com.project.todolist.domain.dto.ToDoListResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,14 +15,58 @@ import java.util.List;
 
 @RequestMapping("/v1/schedule")
 public interface ToDoListAPI {
+
+    @Operation(
+            summary = "Create a new appointment",
+            description = "Create a new appointment and save it to the database.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(schema = @Schema(implementation = ToDoListRequest.class))),
+            @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = Error.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = Error.class)))
+    })
     @PostMapping
     ResponseEntity<ToDoListResponse> create(@Valid @RequestBody ToDoListRequest toDoListRequest);
+
+    @Operation(
+            summary = "Update an appointment",
+            description = "Update an appointment and save it to the database.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(schema = @Schema(implementation = ToDoListRequest.class))),
+            @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = Error.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = Error.class)))
+    })
     @PutMapping("/{uuid}")
     ResponseEntity<ToDoListResponse> update(@PathVariable String uuid, @Valid @RequestBody ToDoListRequest toDoListRequest);
+
+    @Operation(
+            summary = "Delete an appointment",
+            description = "Delete an appointment from the database.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation"),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = Error.class))),
+            @ApiResponse(responseCode = "404", description = "Not found", content = @Content(schema = @Schema(implementation = Error.class)))
+    })
     @DeleteMapping("/{uuid}")
     ResponseEntity<ToDoListResponse> delete(@PathVariable String uuid);
+
+    @Operation(
+            summary = "Get an appointment",
+            description = "Get an appointment from the database.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(schema = @Schema(implementation = ToDoListResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = Error.class))),
+            @ApiResponse(responseCode = "404", description = "Not found", content = @Content(schema = @Schema(implementation = Error.class)))
+    })
     @GetMapping("/{uuid}")
     ResponseEntity<ToDoListResponse> get(@PathVariable String uuid);
+
+    @Operation(
+            summary = "Get all appointments",
+            description = "Get all appointments from the database.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = @Content(schema = @Schema(implementation = ToDoListResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = Error.class)))
+    })
     @GetMapping
     ResponseEntity<List<ToDoListResponse>> getAll();
 }

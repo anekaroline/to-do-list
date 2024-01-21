@@ -1,7 +1,15 @@
+anek:
+  openapi:
+    dev-url: http://localhost:8080
+    prod-url: http://localhost:8080
+
 server:
   port: 8080
-
+#  servlet:
+#    context-path: /v1/schedule
 spring:
+  application:
+    name: Schedule
   jackson:
     deserialization:
       fail-on-unknown-properties: true
@@ -18,3 +26,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
+# Swagger Configuration
+springdoc:
+  swagger-ui:
+    tryItOutEnabled: true

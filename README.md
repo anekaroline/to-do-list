@@ -20,3 +20,7 @@ Variáveis de ambiente:
 - DATABASE_USERNAME;
 
 Use o Postman ou outro similar para testar a API;
+
+link do swagger:
+- http://localhost:8080/swagger-ui/index.html#/
+- http://localhost:8080/v3/api-docs
