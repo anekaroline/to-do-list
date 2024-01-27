@@ -4,6 +4,7 @@ import br.com.project.todolist.annotation.ISO8601Date;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
 public class ISO8601DateValidator implements ConstraintValidator<ISO8601Date, String> {
@@ -11,15 +12,14 @@ public class ISO8601DateValidator implements ConstraintValidator<ISO8601Date, St
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
         if (value == null || value.isEmpty()) {
-            return true;  // Permite valores nulos ou vazios
+            return true;
         }
 
         try {
-            // Tenta fazer o parse da data usando o padrão ISO 8601
-            java.time.LocalDate.parse(value);
-            return true;  // A data é válida
+            LocalDate.parse(value);
+            return true;
         } catch (DateTimeParseException e) {
-            return false;  // A data não está no formato ISO 8601 válido
+            return false;
         }
     }
 }
