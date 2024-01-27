@@ -1,8 +1,11 @@
 package br.com.project.todolist.service;
 
+import br.com.project.todolist.domain.dto.ToDoListRequest;
 import br.com.project.todolist.domain.models.ToDoListEntity;
 import br.com.project.todolist.exceptionhandler.exceptions.EndDateBeforeStartDateException;
+import br.com.project.todolist.exceptionhandler.exceptions.WithoutModifications;
 import br.com.project.todolist.repository.ToDoListRepository;
+import br.com.project.todolist.utils.EntityMerger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
@@ -34,11 +37,19 @@ public class ToDoListService {
         return toDoListRepository.save(toDoListEntity);
     }
 
-    public ToDoListEntity update(String uuid, ToDoListEntity toDoListEntity) {
+    public ToDoListEntity update(String uuid, Map<String, Object> objectMap, ToDoListEntity  toDoListEntity) {
         ToDoListEntity toDoListExisting = findById(uuid);
         isValidDate(toDoListEntity);
-        BeanUtils.copyProperties(toDoListEntity,toDoListExisting, getNullPropertyNames(toDoListEntity));
+        var clone = new ToDoListEntity(toDoListExisting);
+        EntityMerger.mergeData(clone, objectMap);
+        verificaSeHouveModanca(clone, toDoListExisting);
         return toDoListRepository.save(toDoListExisting);
+    }
+
+    private void verificaSeHouveModanca(ToDoListEntity clone, ToDoListEntity toDoListExisting) {
+        if(clone.equals(toDoListExisting)){
+            throw new WithoutModifications();
+        }
     }
 
 
@@ -56,21 +67,5 @@ public class ToDoListService {
         }
 
     }
-
-    private String[] getNullPropertyNames(Object source) {
-        final BeanWrapper src = new BeanWrapperImpl(source);
-        java.beans.PropertyDescriptor[] pds = src.getPropertyDescriptors();
-
-        Set<String> emptyNames = new HashSet<>();
-        for (PropertyDescriptor pd : pds) {
-            Object srcValue = src.getPropertyValue(pd.getName());
-            if (srcValue == null) emptyNames.add(pd.getName());
-        }
-
-        String[] result = new String[emptyNames.size()];
-        return emptyNames.toArray(result);
-    }
-
-
 
 }

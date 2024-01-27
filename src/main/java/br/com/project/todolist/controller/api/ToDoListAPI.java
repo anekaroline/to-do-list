@@ -2,6 +2,7 @@ package br.com.project.todolist.controller.api;
 
 import br.com.project.todolist.domain.dto.ToDoListRequest;
 import br.com.project.todolist.domain.dto.ToDoListResponse;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping("/v1/schedule")
 public interface ToDoListAPI {
@@ -36,7 +38,7 @@ public interface ToDoListAPI {
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = Error.class)))
     })
     @PutMapping("/{uuid}")
-    ResponseEntity<ToDoListResponse> update(@PathVariable String uuid, @Valid @RequestBody ToDoListRequest toDoListRequest);
+    ResponseEntity<ToDoListResponse> update(@PathVariable String uuid, @Valid @RequestBody Map<String, Object> toDoListRequest) throws InvalidFormatException;
 
     @Operation(
             summary = "Delete an appointment",
