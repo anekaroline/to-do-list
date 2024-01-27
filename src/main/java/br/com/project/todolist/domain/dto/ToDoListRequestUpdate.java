@@ -27,7 +27,7 @@ public record ToDoListRequestUpdate(
         @ISO8601Date()
         @Schema(description = "End date of the ToDoList", example = "2023-01-31")
         String endDate,
-        @Schema(description = "Status of the ToDoList", example = "IN_PROGRESS", defaultValue = "PENDING")
+        @Schema(description = "Status of the ToDoList", example = "IN_PROGRESS")
         @NoEmptyOrBlank
         String status
 ) {
