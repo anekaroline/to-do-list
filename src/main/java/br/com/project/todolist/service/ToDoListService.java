@@ -43,7 +43,7 @@ public class ToDoListService {
         var clone = new ToDoListEntity(toDoListExisting);
         EntityMerger.mergeData(clone, objectMap);
         verificaSeHouveModanca(clone, toDoListExisting);
-        return toDoListRepository.save(toDoListExisting);
+        return toDoListRepository.save(clone);
     }
 
     private void verificaSeHouveModanca(ToDoListEntity clone, ToDoListEntity toDoListExisting) {

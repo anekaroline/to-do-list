@@ -35,7 +35,7 @@ public class ToDoListController implements ToDoListAPI {
     @Override
     public ResponseEntity<ToDoListResponse> update(String uuid, Map<String, Object> objectMap) throws InvalidFormatException {
         ToDoListRequestUpdate request = (ToDoListRequestUpdate) ConvertMap.convertMap(objectMap, ToDoListRequestUpdate.class);
-        final var result = toDoListService.update(uuid, objectMap, request.toDomain(request));
+        final var result = toDoListService.update(uuid, objectMap, request.toDomain());
         return ResponseEntity.ok().body(ToDoListResponse.from(result));
     }
 

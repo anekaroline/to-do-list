@@ -37,7 +37,7 @@ public interface ToDoListAPI {
             @ApiResponse(responseCode = "400", description = "Bad request", content = @Content(schema = @Schema(implementation = Error.class))),
             @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content(schema = @Schema(implementation = Error.class)))
     })
-    @PutMapping("/{uuid}")
+    @PatchMapping("/{uuid}")
     ResponseEntity<ToDoListResponse> update(@PathVariable String uuid, @Valid @RequestBody Map<String, Object> toDoListRequest) throws InvalidFormatException;
 
     @Operation(

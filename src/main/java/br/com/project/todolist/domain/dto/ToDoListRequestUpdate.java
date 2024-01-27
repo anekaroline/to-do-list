@@ -18,8 +18,10 @@ import static br.com.project.todolist.domain.dto.ToDoListRequest.getToDoListEnti
 @Schema(name = "Schedule Request", description = "Schedule  Request DTO  Model  Definitions  for  Swagger UI  and  OpenAPI  Specifications  (OpenAPI  v3.0.0)  and  JSON  Schema  (JSON  Schema  v4.0.0)  ")
 public record ToDoListRequestUpdate(
         @Size(min = 1, max = 50)
-        @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Title of the ToDoList", example = "My ToDoList")
+        @NoEmptyOrBlank
+        @Schema(description = "Title of the ToDoList", example = "My ToDoList")
         String title,
+        @NoEmptyOrBlank
         @Schema(description = "Description of the ToDoList", example = "This is my ToDoList")
         String description,
         @NoEmptyOrBlank
@@ -36,19 +38,8 @@ public record ToDoListRequestUpdate(
 ) {
 
 
-        public ToDoListEntity toDomain(ToDoListRequestUpdate request) {
-            validarBean(request);
+        public ToDoListEntity toDomain() {
             return getToDoListEntity(this.title, this.description, this.startDate, this.endDate, this.status);
         }
-
-        public static void validarBean(Object request) {
-                Set<ConstraintViolation<Object>> violacoes = Validation.buildDefaultValidatorFactory().getValidator()
-                        .validate(request);
-
-                if (!violacoes.isEmpty()) {
-                        throw new ConstraintViolationException(violacoes);
-                }
-        }
-
 
 }

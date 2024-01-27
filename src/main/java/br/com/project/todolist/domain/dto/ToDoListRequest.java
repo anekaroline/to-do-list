@@ -25,6 +25,7 @@ public record ToDoListRequest(
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED, description = "Title of the ToDoList", example = "My ToDoList")
         String title,
         @Schema(description = "Description of the ToDoList", example = "This is my ToDoList")
+        @NoEmptyOrBlank
         String description,
         @NoEmptyOrBlank
         @ISO8601Date()

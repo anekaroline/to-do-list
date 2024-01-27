@@ -12,7 +12,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ISO8601Date {
 
-    String message() default "Formato de data inválido. Use o formato ISO 8601(yyyy-MM-dd).";
+    String message() default "Invalid date format. Please use the ISO 8601 format (yyyy-MM-dd).";
 
     Class<?>[] groups() default {};
 
