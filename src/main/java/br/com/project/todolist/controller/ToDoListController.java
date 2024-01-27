@@ -40,9 +40,9 @@ public class ToDoListController implements ToDoListAPI {
     }
 
     @Override
-    public ResponseEntity<ToDoListResponse> delete(String uuid) {
+    public ResponseEntity<Void> delete(String uuid) {
         toDoListService.delete(uuid);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     @Override

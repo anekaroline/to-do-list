@@ -5,17 +5,12 @@ import br.com.project.todolist.annotation.NoEmptyOrBlank;
 import br.com.project.todolist.domain.models.ToDoListEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.ConstraintViolation;
-import jakarta.validation.ConstraintViolationException;
-import jakarta.validation.Validation;
 import jakarta.validation.constraints.Size;
-
-import java.util.Set;
 
 import static br.com.project.todolist.domain.dto.ToDoListRequest.getToDoListEntity;
 
-@Tag(name = "Schedule Request" , description = "Schedule Request")
-@Schema(name = "Schedule Request", description = "Schedule  Request DTO  Model  Definitions  for  Swagger UI  and  OpenAPI  Specifications  (OpenAPI  v3.0.0)  and  JSON  Schema  (JSON  Schema  v4.0.0)  ")
+@Tag(name = "Schedule Request Update" , description = "Schedule Request Update")
+@Schema(name = "Schedule Request Update", description = "Schedule Request Update DTO  Model  Definitions  for  Swagger UI  and  OpenAPI  Specifications  (OpenAPI  v3.0.0)  and  JSON  Schema  (JSON  Schema  v4.0.0)  ")
 public record ToDoListRequestUpdate(
         @Size(min = 1, max = 50)
         @NoEmptyOrBlank

@@ -30,3 +30,27 @@ spring:
 springdoc:
   swagger-ui:
     tryItOutEnabled: true
+
+
+
+
+
+#  patch:
+#    summary: Exemplo de endpoint que aceita um Map<String, Object>
+#    requestBody:
+#      required: true
+#      content:
+#        application/json:
+#          schema:
+#            type: object
+#            properties:
+#              dados:
+#                type: object
+#                additionalProperties:
+#                  type: string  # Você pode ajustar o tipo conforme necessário
+#    responses:
+#      '200':
+#        description: Sucesso
+#      '400':
+#        description: Requisição inválida
+
